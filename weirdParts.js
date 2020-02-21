@@ -23,5 +23,4 @@ Address = '100 Main St.' Address is the name, value is the street.
 
 Objection: a collection of name value pairs. Most simple definition when talking about javascript.
 
-
  */ 
