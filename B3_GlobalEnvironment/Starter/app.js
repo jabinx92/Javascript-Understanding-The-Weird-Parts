@@ -210,3 +210,5 @@ console.log(c);
 //( ... ) always get highest precedence first with a level of 19, the highest number on the chart
 var a = (3 + 4) * 5;
 console.log(a);
+
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
