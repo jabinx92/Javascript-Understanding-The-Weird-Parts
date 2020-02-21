@@ -135,7 +135,7 @@ var myVar = 1;
 //asynchronous - multiple actions per time
 //long running function
 function waitThreeSeconds() {
-    var ms = 3000 + new Date().getTime();
+    var ms = 1000 + new Date().getTime();
     while(new Date() < ms){}
     console.log('finished function');
 }
@@ -149,3 +149,64 @@ document.addEventListener('click', clickHandler);
 
 waitThreeSeconds();
 console.log('finished execution');
+
+//in the example above, all the execution context functions run first, then the click in the queue stack gets ran after all the functions in execution contents run
+
+//types and javascript - dynamic typing- you don't tell the engine what type of data a variable holds, it figures it out while your code is running. cariables can hold different types of values because it's all figured out during execution
+
+//static typing 
+// bool isNew = 'hello'; // an error
+
+//dynamic typing
+var isNew = true;// no error
+isNew = 'yup!';
+isNew = 1;
+
+//primitive types - a type of data that represents a single value, that is, not an object
+
+//undefined represents lack of existence(you shouldn't set a variable to this)
+
+//null represents lack of existence(you can set a variable to this)
+
+//boolean - true or false
+
+//number - floating point number(there's always some decimals). unlike other programming lanaguages, there's only one 'number' type... and it can make math weird.
+
+//string - a sequence of characters(both '' and "" can be used)
+
+//symbol - used in es6(next version in javascript) not much talked here about this.
+
+//operators - a special function  that is syntactically (written) differently, generally, operators take two parameters and return one result
+
+var a = 3 + 4;
+console.log(a);
+
+// function +(a, b) {
+
+//     return // add the two #s
+// }
+
+var a = 4 - 3;
+console.log(a);
+
+var a = 4 > 3;
+console.log(a);
+
+//operator precendence and associativity - which operator function gets called first
+//functions are called in order of precedence(HIGHER precedence wins)
+//associativity - what order operator functions get called in : left-to-right or right-to-left
+//when functions have the same precedence
+
+var a = 3 + 4 * 5;
+console.log(a);
+
+var a = 2, b = 3, c = 4;
+a = b = c; // a = b = c = 4 // a = b = 4 // a = 4;
+console.log(a);
+console.log(b);
+console.log(c);
+//They all equal 4 because the associativity is right-to-left. It starts at the right then goes left
+
+//( ... ) always get highest precedence first with a level of 19, the highest number on the chart
+var a = (3 + 4) * 5;
+console.log(a);
