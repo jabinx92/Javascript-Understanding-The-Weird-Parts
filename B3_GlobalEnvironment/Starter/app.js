@@ -134,21 +134,21 @@ var myVar = 1;
 
 //asynchronous - multiple actions per time
 //long running function
-function waitThreeSeconds() {
-    var ms = 1000 + new Date().getTime();
-    while(new Date() < ms){}
-    console.log('finished function');
-}
+// function waitThreeSeconds() {
+//     var ms = 1000 + new Date().getTime();
+//     while(new Date() < ms){}
+//     console.log('finished function');
+// }
 
-function clickHandler() {
-    console.log('click event!');
-}
+// function clickHandler() {
+//     console.log('click event!');
+// }
 
-//listen for the click event
-document.addEventListener('click', clickHandler);
+// //listen for the click event
+// document.addEventListener('click', clickHandler);
 
-waitThreeSeconds();
-console.log('finished execution');
+// waitThreeSeconds();
+// console.log('finished execution');
 
 //in the example above, all the execution context functions run first, then the click in the queue stack gets ran after all the functions in execution contents run
 
@@ -210,5 +210,65 @@ console.log(c);
 //( ... ) always get highest precedence first with a level of 19, the highest number on the chart
 var a = (3 + 4) * 5;
 console.log(a);
+console.log(typeof a)
 
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+
+//conceptual aside: coercion
+//coercion : converting a value from one type to another. This happens quite often in javascript because it is dynamically typed
+
+var a = parseInt(1 + "2");
+console.log(typeof parseInt(1 + '2'))
+console.log(a)
+console.log(typeof a)
+
+//comparison operators
+console.log(1 < 2 < 3);
+
+console.log(3 < 2 < 1); // this returns true because 
+//3<2 = false < 1 = 0 < 1 === true
+console.log(false < 1);
+console.log(15 < 20 > 17)// because 15 < 20 is true > 17 = 1 > 17 which is false
+
+//never use double equals ==, use === 99 percent of time
+var a = 0;
+var b = false;
+
+if(a !== b) {
+    console.log('They are not equal!');
+} else {
+    console.log('Equal.');
+}
+
+//coercion link - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
+
+//existence and booleans
+var a;
+
+a = "hi";
+
+// goes to internet and looks for a value
+
+if (a || a === 0) {
+    console.log('Something is there');
+} else {
+    console.log('Something is not there')
+}
+
+if (a === 0 || a) {
+    console.log('Something is there');
+} else {
+    console.log('Something is not there')
+}
+
+//default values
+function greet(name) {
+    name = name || '<Your name here>'; 
+    console.log('Hello ' + name);
+}
+greet('tony');
+greet();
+
+//Framework aside
+
+console.log(libraryName)
