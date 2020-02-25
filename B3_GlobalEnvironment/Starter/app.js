@@ -388,131 +388,279 @@ Objects can have
 //EXPRESSION - a unit of code that results in a value. It doesn't have to save to a variable.
 
 
-greet();
-// this is a function statement it doesnt return a value until executed
-function greet () {
-    console.log('hi');
+// greet();
+// // this is a function statement it doesnt return a value until executed
+// function greet () {
+//     console.log('hi');
+// }
+
+// //this is a function expression - hint the equal sign
+// var anonymousGreet = function () {
+//     console.log('hi');
+// }
+// //this function doesnt have a name but is assigned to anonymousGreet, which is an anonymous function, the expression is the '=' sign
+
+// greet(); // this line works also on line 391, cause the function statement greet is stored in memory
+// anonymousGreet(); // if you move this line above line 398, the function wont run
+
+// log(3);
+// function log(a){
+//     console.log(a);
+// }
+// log(3);
+// log("HELLO")
+// log({
+//     greeting:'hi'
+// });
+
+// log(function() {
+//     console.log('hi');
+// }); //first class functions. functions are objects
+
+// //conceptual aside - by value vs by reference
+// //primitive type value - number boolean string var a = 'hello' | b = a. b the new variable points to a new location in memory and is a copy of the primitive value is placed in that spot of memory. a seperate location
+
+// //if you have a and b in an object, b points to a in the same object, no new object is created. by reference. all objects interact by reference
+
+// //by value (primitives)
+// var a = 3;
+// var b;
+
+// b = a;
+// a = 2;
+
+// console.log(a); // a = 2
+// console.log(b); // b = 3 because b is a copy of a = 3;
+
+// //big word alert - MUTATE : To change something. "Immutable" means it cant be changed.
+
+// // by reference (all objects (including functions))
+// var c = { greeting: 'hi'};
+// var d;
+
+// d = c; // d points to the same spot as c in memory
+// c.greeting = 'hello'; // mutate
+// console.log(c);
+// console.log(d);
+
+// // by reference (even as parameters)
+// function changeGreeting(obj) {
+//     obj.greeting = 'Hola'; // mutate
+// }
+
+// changeGreeting(d);
+// console.log(c);
+// console.log(d);
+
+// // equals operator sets up new memory space (new address)
+// c = { greeting: 'howdy' };
+// console.log(c);
+// console.log(d);
+
+// //all primitive types are by value(copy), all objects are by reference(no copy)
+
+// //OBJECTS, FUNCTIONS, AND 'THIS'
+
+// //when function is invoked, execution context is created(creation phase)
+
+// function z() {
+//     console.log(this);
+//     this.newVariable = 'Hello';
+// };
+
+
+// var z1 = function() {
+//     console.log(this);
+// };
+
+// z();
+
+// console.log(newVariable);
+// z1();
+
+// var c = {
+//     name: 'The c object',
+//     log: function () {
+//         var self = this;
+//         self.name = "Updated c object";
+//         console.log(self);
+
+//         var setName = function (newName) {
+//             self.name = newName;
+//         }
+
+//         setName('Updated again! The C object');
+//         console.log(self);
+//     }
+// }
+
+// c.log();
+
+// //CONCEPTUAL ASIDE: ARRAYS - COLLECTIONS OF ANYTHING
+// var arr = new Array({});
+// var arr = [
+//     1,
+//     false,
+//     {
+//         name: 'tony',
+//         address: '111 main st.'
+//     },
+//     function(name) {
+//         var greeting = 'hello ';
+//         console.log(greeting + name)
+//     },
+//     'hello'
+// ];
+
+// console.log(arr);
+// arr[3](arr[2].name);
+
+//'ARGUMENTS' AND SPREAD
+//ARGUMENTS: The parameters you pass to a function. Javascript gives you a keyword of the same name which contains them all
+
+// function greet(firstName, lastName, language, ...other) {
+
+//     language = language || 'EN';
+
+//     if(arguments.length === 0) {
+//         console.log('Missing parameters!');
+//         console.log(`---------------`);
+//         return;
+//     }
+
+//     console.log(firstName);
+//     console.log(lastName);
+//     console.log(language);
+//     console.log(arguments);
+//     console.log(`arg 0 : ${arguments[0]}`);
+//     console.log(`---------------`);
+// }
+// greet();
+// greet('John');
+// greet('John', 'Doe');
+// greet('John', 'Doe', 'ES', '111 Main St', 'new york');
+
+//Framework Aside - function overloading 
+function greet ( firstName, lastName, language) {
+    language = language || 'en';
+
+    if ( language == 'en') {
+        console.log(`hello ${firstName} ${lastName}`)
+    }
+
+    if ( language == 'es') {
+        console.log(`hola ${firstName} ${lastName}`)
+    }
+
 }
 
-//this is a function expression - hint the equal sign
-var anonymousGreet = function () {
-    console.log('hi');
-}
-//this function doesnt have a name but is assigned to anonymousGreet, which is an anonymous function, the expression is the '=' sign
-
-greet(); // this line works also on line 391, cause the function statement greet is stored in memory
-anonymousGreet(); // if you move this line above line 398, the function wont run
-
-log(3);
-function log(a){
-    console.log(a);
-}
-log(3);
-log("HELLO")
-log({
-    greeting:'hi'
-});
-
-log(function() {
-    console.log('hi');
-}); //first class functions. functions are objects
-
-//conceptual aside - by value vs by reference
-//primitive type value - number boolean string var a = 'hello' | b = a. b the new variable points to a new location in memory and is a copy of the primitive value is placed in that spot of memory. a seperate location
-
-//if you have a and b in an object, b points to a in the same object, no new object is created. by reference. all objects interact by reference
-
-//by value (primitives)
-var a = 3;
-var b;
-
-b = a;
-a = 2;
-
-console.log(a); // a = 2
-console.log(b); // b = 3 because b is a copy of a = 3;
-
-//big word alert - MUTATE : To change something. "Immutable" means it cant be changed.
-
-// by reference (all objects (including functions))
-var c = { greeting: 'hi'};
-var d;
-
-d = c; // d points to the same spot as c in memory
-c.greeting = 'hello'; // mutate
-console.log(c);
-console.log(d);
-
-// by reference (even as parameters)
-function changeGreeting(obj) {
-    obj.greeting = 'Hola'; // mutate
+function greetEnglish(firstName, lastName) {
+    greet(firstName, lastName, 'en');
 }
 
-changeGreeting(d);
-console.log(c);
-console.log(d);
-
-// equals operator sets up new memory space (new address)
-c = { greeting: 'howdy' };
-console.log(c);
-console.log(d);
-
-//all primitive types are by value(copy), all objects are by reference(no copy)
-
-//OBJECTS, FUNCTIONS, AND 'THIS'
-
-//when function is invoked, execution context is created(creation phase)
-
-function z() {
-    console.log(this);
-    this.newVariable = 'Hello';
-};
+function greetSpanish(firstName, lastName) {
+    greet(firstName, lastName, 'es');
+}
 
 
-var z1 = function() {
-    console.log(this);
-};
+greetEnglish('john','doe');
 
-z();
+greetSpanish('john','doe');
 
-console.log(newVariable);
-z1();
+//conceptual aside - syntax parsers
+//retu throws and error
+//return; computer enteprets this and returns something
+//parser goes to your code character by character, following rules, and making changes. happens all before code is executed
 
-var c = {
-    name: 'The c object',
-    log: function () {
-        var self = this;
-        self.name = "Updated c object";
-        console.log(self);
+//DANGEROUS ASIDE - very hard to track down, easy to do
+//Automatic semicolon insertion. semicolons are optional
+//when you type return followed by enter, the computer automatically puts a semo colon, like this (return + enter = return;)
+//always put your own semicolons
 
-        var setName = function (newName) {
-            self.name = newName;
-        }
-
-        setName('Updated again! The C object');
-        console.log(self);
+function getPerson() {
+    return//;
+    {
+        firstName: 'Tony'
     }
 }
 
-c.log();
+console.log(getPerson()); // results in undefined, there is a hidden semicolon on line 581
 
-//CONCEPTUAL ASIDE: ARRAYS - COLLECTIONS OF ANYTHING
-var arr = new Array({});
-var arr = [
-    1,
-    false,
-    {
-        name: 'tony',
-        address: '111 main st.'
-    },
-    function(name) {
-        var greeting = 'hello ';
-        console.log(greeting + name)
-    },
-    'hello'
-];
+function getPerson() {
 
-console.log(arr);
-arr[3](arr[2].name);
+    return {//no hidden semicolon 
+        firstName: 'Tony'
+    }
 
-//'ARGUMENTS' AND SPREAD
+}
+
+console.log(getPerson()); //results in {firstName: 'Tony}
+
+//when you press enter after return, it will automatically put a hidden semicolon
+
+//framework aside: whitespace
+//big word alert - whitespace : invisible characters that create literal 'space' in your written code. carriage returns, tabs, spaces
+
+var 
+    //first name of the person
+    firstName,
+
+    // last name of the person
+    lastName;
+
+    //the language
+    //can be 'en' or 'es'
+
+var person = {
+    //the first name
+    firstName: 'John',
+    //the last name
+    // (always required)
+    lastName: 'Doe'
+}
+
+console.log(person);
+
+//IMMEDIATELY INVOKED FUNCTION EXPRESSIONS (IIFEs)
+
+//function statement
+function greet (name) {
+    console.log('Hello ' + name);
+}
+greet('John');
+
+//anonymous (a function without a name)function expression, expression is the = sign
+var greetFunc = function(name) {
+    console.log('Hello ' + name)
+}
+greetFunc('John');
+
+//using an immediately invoked function expression (IIFE)
+
+
+// var greeting = function(name) {
+//     return 'Hello ' + name;
+// }('John');
+
+// console.log(greeting);
+
+"I am a string!";
+
+{
+    name: 'John'
+};
+
+undefined;
+
+//IIFE - does not go in global execution context, anonymous function with its own execution contexts
+(function hello(name) {
+
+    var greeting = 'Inside IIFE: Hello';
+    global.greeting = 'Hello';
+    console.log(greeting + ' ' + name)
+
+})('Johnny'); // or }('Johnny)); parenthesis are operators, you use it in expressions. both style works
+
+
+//Framework aside: IIFEs and Safe Code
+console.log(greeting);
