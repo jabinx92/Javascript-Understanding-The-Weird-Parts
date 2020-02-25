@@ -577,90 +577,152 @@ greetSpanish('john','doe');
 //when you type return followed by enter, the computer automatically puts a semo colon, like this (return + enter = return;)
 //always put your own semicolons
 
-function getPerson() {
-    return//;
-    {
-        firstName: 'Tony'
-    }
-}
+// function getPerson() {
+//     return//;
+//     {
+//         firstName: 'Tony'
+//     }
+// }
 
-console.log(getPerson()); // results in undefined, there is a hidden semicolon on line 581
+// console.log(getPerson()); // results in undefined, there is a hidden semicolon on line 581
 
-function getPerson() {
+// function getPerson() {
 
-    return {//no hidden semicolon 
-        firstName: 'Tony'
-    }
+//     return {//no hidden semicolon 
+//         firstName: 'Tony'
+//     }
 
-}
+// }
 
-console.log(getPerson()); //results in {firstName: 'Tony}
+// console.log(getPerson()); //results in {firstName: 'Tony}
 
-//when you press enter after return, it will automatically put a hidden semicolon
+// //when you press enter after return, it will automatically put a hidden semicolon
 
-//framework aside: whitespace
-//big word alert - whitespace : invisible characters that create literal 'space' in your written code. carriage returns, tabs, spaces
+// //framework aside: whitespace
+// //big word alert - whitespace : invisible characters that create literal 'space' in your written code. carriage returns, tabs, spaces
 
-var 
-    //first name of the person
-    firstName,
+// var 
+//     //first name of the person
+//     firstName,
 
-    // last name of the person
-    lastName;
+//     // last name of the person
+//     lastName;
 
-    //the language
-    //can be 'en' or 'es'
+//     //the language
+//     //can be 'en' or 'es'
 
-var person = {
-    //the first name
-    firstName: 'John',
-    //the last name
-    // (always required)
-    lastName: 'Doe'
-}
+// var person = {
+//     //the first name
+//     firstName: 'John',
+//     //the last name
+//     // (always required)
+//     lastName: 'Doe'
+// }
 
-console.log(person);
+// console.log(person);
 
-//IMMEDIATELY INVOKED FUNCTION EXPRESSIONS (IIFEs)
+// //IMMEDIATELY INVOKED FUNCTION EXPRESSIONS (IIFEs)
 
-//function statement
-function greet (name) {
-    console.log('Hello ' + name);
-}
-greet('John');
+// //function statement
+// function greet (name) {
+//     console.log('Hello ' + name);
+// }
+// greet('John');
 
-//anonymous (a function without a name)function expression, expression is the = sign
-var greetFunc = function(name) {
-    console.log('Hello ' + name)
-}
-greetFunc('John');
+// //anonymous (a function without a name)function expression, expression is the = sign
+// var greetFunc = function(name) {
+//     console.log('Hello ' + name)
+// }
+// greetFunc('John');
 
-//using an immediately invoked function expression (IIFE)
+// //using an immediately invoked function expression (IIFE)
 
 
-// var greeting = function(name) {
-//     return 'Hello ' + name;
-// }('John');
+// // var greeting = function(name) {
+// //     return 'Hello ' + name;
+// // }('John');
+
+// // console.log(greeting);
+
+// "I am a string!";
+
+// {
+//     name: 'John'
+// };
+
+// undefined;
+
+// //IIFE - does not go in global execution context, anonymous function with its own execution contexts
+// (function hello(name) {
+
+//     var greeting = 'Inside IIFE: Hello';
+//     console.log(greeting + ' ' + name)
+
+// })('Johnny'); // or }('Johnny)); parenthesis are operators, you use it in expressions. both style works
+
+
+// //Framework aside: IIFEs and Safe Code
+// console.log(greeting);
+
+
+// //IIFE
+// (function(global,name) {
+//     var greeting = 'Hello';
+//     global.greeting = 'Hello';
+//     console.log(greeting + ' ' + name);
+
+// }(window, 'John')); //IIFE
 
 // console.log(greeting);
 
-"I am a string!";
+//UNDERSTANDING CLOSURES -------------------------------------
+function greet(whatToSay) {
 
-{
-    name: 'John'
-};
+    return function(name) {
+        console.log(whatToSay + ' ' + name);
+    }
 
-undefined;
+}
+var sayHi = greet('Hi');
+sayHi('Tony');
+//UNDERSTANDING CLOSURES PART 2 ------------------------------
 
-//IIFE - does not go in global execution context, anonymous function with its own execution contexts
-(function hello(name) {
+function buildFunctions() {
+    var arr = [];
+    for( var i = 0; i < 3; i++) {
 
-    var greeting = 'Inside IIFE: Hello';
-    global.greeting = 'Hello';
-    console.log(greeting + ' ' + name)
+        arr.push(
+            function () {
+                console.log(i);
+            }
+        )
+    }
+    return arr;
+}
 
-})('Johnny'); // or }('Johnny)); parenthesis are operators, you use it in expressions. both style works
+var fs = buildFunctions();
+fs[0](); // prints 3
+fs[1](); // prints 3
+fs[2](); // prints 3
 
+//----------
 
-//Framework aside: IIFEs and Safe Code
-console.log(greeting);
+function buildFunctions2() {
+    var arr = [];
+    for( var i = 0; i < 3; i++) {
+        
+        arr.push(
+            (function (j) {
+                return function () {
+                    console.log(j);
+                }
+            }(i))
+        )
+    }
+    return arr;
+}
+
+var fs2 = buildFunctions2();
+fs2[0](); // prints 0
+fs2[1](); // prints 1
+fs2[2](); // prints 2
