@@ -683,8 +683,8 @@ function greet(whatToSay) {
     }
 
 }
-var sayHi = greet('Hi');
-sayHi('Tony');
+// var sayHi = greet('Hi');
+// sayHi('Tony');
 //UNDERSTANDING CLOSURES PART 2 ------------------------------
 
 function buildFunctions() {
@@ -700,10 +700,10 @@ function buildFunctions() {
     return arr;
 }
 
-var fs = buildFunctions();
-fs[0](); // prints 3
-fs[1](); // prints 3
-fs[2](); // prints 3
+// var fs = buildFunctions();
+// fs[0](); // prints 3
+// fs[1](); // prints 3
+// fs[2](); // prints 3
 
 //----------
 
@@ -722,7 +722,117 @@ function buildFunctions2() {
     return arr;
 }
 
-var fs2 = buildFunctions2();
-fs2[0](); // prints 0
-fs2[1](); // prints 1
-fs2[2](); // prints 2
+// var fs2 = buildFunctions2();
+// fs2[0](); // prints 0
+// fs2[1](); // prints 1
+// fs2[2](); // prints 2
+
+
+//FRAMEWORK ASIDE - FUNCTION FACTORIES
+function makeGreeting(language) {//factory function
+
+    return function(firstName, lastName){
+        if(language === 'en') {
+            console.log(`Hello ${firstName} ${lastName}.`)
+        }
+        if(language === 'es') {
+            console.log(`Hola ${firstName} ${lastName}.`)            }
+    }
+}
+var greetEnglish = makeGreeting('en');
+var greetSpanish = makeGreeting('es');
+
+// greetEnglish('John','Doe');
+// greetSpanish('John','Doe');
+
+// everytime you call a function it gets its own execution context and any functions created inside of it will point to that execution contexts
+
+//closures can let you create functions inside other functions
+
+//CLOSURES AND CALLBACKS
+function sayHiLater() {
+    var greeting = 'Hi!';
+
+    setTimeout(function () {
+        console.log(greeting);
+    }, 3000);
+}
+
+// sayHiLater();
+
+// jQuery uses function expressions and first-class functions!
+// $("button").click(function(){
+
+// });
+
+//BIG WORD ALERT -CALLBACK FUNCTION - A FUNCTION YOU GIVE TO ANOTHER FUNCTION TO BE RUN WHEN THE OTHER FUNCTION IS FINISHED. SO THE FUNCTION YOU CALL (I.E. INVOKE), 'CALLS BACK' BY CALLING THE FUNCTION YOU GAVE IT WHEN IT FINISHES.
+
+function tellMeWhenDone(callback) {
+    var a = 1000; // some work
+    var b = 2000; // some work
+
+    // callback(); // the 'callback', it runs the function I give it!
+}
+
+tellMeWhenDone(function() {
+    console.log('I am done!');
+});
+
+tellMeWhenDone(function() {
+    console.log('All done...');
+})
+
+//CALL(), APPLY(), BIND(); // these are 3 functions. function is a special type of object that has code(invocable with () ), name(optional and can be anonymous), call() method, apply() method, bind() method. the last three deal with the 'this' variable
+
+var person = {
+    firstName: 'John',
+    lastName: 'Doe',
+    getFullName: function () {
+        var fullName = this.firstName + ' ' + this.lastName;
+        return fullName;
+        
+    }
+}
+
+// console.log(person.getFullName())
+
+var logName = function(lang1, lang2) {
+    console.log(`Logged ${this.getFullName()}`);
+    console.log(`Arguments: ${lang1} ${lang2}`)
+    console.log(`------------`)
+}.bind(person) //binds person object, so this can be used 
+
+var logPersonName = logName.bind(person); //makes a new copy of logName function. bind refers to the object declared as person, that way 'this' can reference that object
+
+logPersonName('en'); 
+
+logName.call(person, 'en', 'es') // call executes with first argument referring to desired object
+logName.apply(person, ['en', 'es']); // apply is similar to call, but it needs an array of parameters
+
+
+(function(lang1, lang2) {
+    console.log(`Logged ${this.getFullName()}`);
+    console.log(`Arguments: ${lang1} ${lang2}`)
+    console.log(`------------`)
+}).apply(person, ['en' , 'es']) // This is an IIFE with apply function
+
+// function borrowing
+var person2 = {
+    firstNme: 'Jane',
+    lastName: 'Doe'
+}
+
+person.getFullName.apply(person2);
+
+//function currying
+function multiply(a, b) {
+    return a * b;
+}
+
+var multipleByTwo = multiply.bind(this, 2);
+console.log(multipleByTwo(4));
+
+var multiplyByThree = multiply.bind(this, 3);
+console.log(multiplyByThree(4));
+
+//big word alert - function currying - creating a copy of a function but with some preset parameters. very useful in mathematical situations
