@@ -797,9 +797,9 @@ var person = {
 // console.log(person.getFullName())
 
 var logName = function(lang1, lang2) {
-    console.log(`Logged ${this.getFullName()}`);
-    console.log(`Arguments: ${lang1} ${lang2}`)
-    console.log(`------------`)
+    // console.log(`Logged ${this.getFullName()}`);
+    // console.log(`Arguments: ${lang1} ${lang2}`)
+    // console.log(`------------`)
 }.bind(person) //binds person object, so this can be used 
 
 var logPersonName = logName.bind(person); //makes a new copy of logName function. bind refers to the object declared as person, that way 'this' can reference that object
@@ -849,23 +849,23 @@ function mapForEach(arr, fn) {
 }
 
 var arr1 = [1,2,3];
-console.log(arr1);
+// console.log(arr1);
 
 var arr2 = mapForEach(arr1, function(item) {
     return item * 2;
 });
-console.log(arr2);
+// console.log(arr2);
 
 var arr3 = mapForEach(arr1, function(item) {
     return item > 2;
 });
-console.log(arr3);
+// console.log(arr3);
 
 var checkPastLimit = function(limiter, item) {
     return item > limiter;
 }
 var arr4 = mapForEach(arr1, checkPastLimit.bind(this, 1));
-console.log(arr4);
+// console.log(arr4);
 
 var checkPastLimitSimplified = function(limiter) {
     return function(limiter, item) {
@@ -874,7 +874,7 @@ var checkPastLimitSimplified = function(limiter) {
 }
 
 var arr5 = mapForEach(arr1, checkPastLimitSimplified(2));
-console.log(arr5);
+// console.log(arr5);
 
 //Functional programming  part 2
 //Javascript Library - underscore.js (_.forEach, _.filter, _.map, etc). We did a lot of this in Hack Reactor
@@ -882,10 +882,275 @@ console.log(arr5);
 var arr6 = _.map(arr1, function(item) {
     return item * 3
 });
-console.log(arr6);
+// console.log(arr6);
 
 var arr7 = _.filter([2,3,4,5,6,7,8,9,10], function (item) {
     return item % 2 === 0;
 });
 
-console.log(arr7);
+// console.log(arr7);
+
+//CONCEPTUAL ASIDE - OBJECT-ORIENTED JAVASCRIPT AND PROTOTYPAL INHERITANCE- Classical vs Prototypal Inheritance
+
+//Inheritance - One object gets access to the properties and methods of another object
+
+//Classical Inheritance - what is currently best known and popular. Like wow classic, tried and true objects that do its job. Verbose
+
+//Prototypal Inheritance - flexible, easy to understand compared to classical 
+
+//Understanding the prototype
+
+//all objects have like a hidden prototype property, you can use it by itself
+
+//obj.prop2 will look in the object to see if their is a key value pair, if not it will GO TO prototype. Each object can have continuosly nested prototype objects
+
+//prototype chain - prototype objects nested in other prototype objects
+
+//obj1 and obj2 point to the same prototype object
+
+var person = {
+    firstName: 'Default',
+    lastName: 'Default',
+    getFullName: function() {
+        return this.firstName + ' ' + this.lastName
+    }
+}
+
+var john = {
+    firstName: 'John',
+    lastName: 'Doe'
+}
+
+// don't do this EVER! for demo purposes only!!!
+john.__proto__ = person;
+// console.log(john.getFullName())
+// console.log(john.firstName); //why doesnt it get 'Default'? That is why you never make proto attached to person. This prints John Doe
+
+var jane = {
+    firstName: 'Jane'
+}
+//Do not ever do this
+jane.__proto__ = person;
+// console.log(jane.getFullName()); //Prints 'Jane Default'
+
+//EVERYTHING IS AN OBJECT (OR A PRIMITIVE)
+var a = {};
+var b = function () {};
+var c = [];
+
+//everything above has a prototype // a.__proto__.toString()
+//b.__proto__.apply()
+//c.__proto__.bind()
+//a.__proto__.__proto__ prints null
+//c.__proto__.__proto__ prints base object
+
+//REFLECTION AND EXTEND
+//BIG WORD ALERT - REFLECTION: AN OBJECT CAN LOOK AT ITSELF, LISTING AND CHANGING ITS PROPERTIES AND METHODS.
+
+for(var prop in john) {
+    if (john.hasOwnProperty(prop)){
+        // console.log(prop + ': ' + john[prop])
+    }
+}
+
+
+var jane = {
+    address: '111 Main St.',
+    getFormalFullname: function () {
+        return this.lastName + ', ' + this.firstName;
+    }
+}
+
+var jim = {
+    getFirstName: function () {
+        return firstName;
+    }
+}
+
+_.extend(john,jane, jim); // adds the object properties from jane and jim TO john, so john gets all the key values
+
+//BUILDING OBJECTS
+//function constructors, 'new', and the history of javascript
+
+function Person(firstName, lastName) {
+    // console.log(this);
+    this.firstName = firstName;
+    this.lastName = lastName;
+    // console.log('This function is invoked.');
+}
+
+//BIG WORD ALERT - FUNCTION CONSTRUCTORS:
+//A NORMAL FUNCTION THAT IS USED TO CONSTRUCT OBJECTS. THE 'THIS' VARIABLE POINTS A NEW EMPTY OBJECT, AND THAT OBJECT IS RETURN FROM THE FUNCTION AUTOMATICALLY.
+
+//FUNCTION CONSTRUCTORS AND .PROTOTYPE 
+Person.prototype.getFullName = function () {
+    return this.firstName + ' ' + this.lastName;
+} //javascript uses memory, and objects take up memory space, so if you added get full name to every object, then that means every object gets its OWN copy of 'getFullName'. IF you add it to the prototype, you only have the method once, as opposed to a having it in 1000 objects. All objects share the same prototype objects
+
+var john = new Person('John','Doe');
+// console.log(john);
+
+var jane = new Person('Jane','Smith');
+// console.log(jane);
+
+Person.prototype.getFormalFullName = function () {
+    return this.lastName + ' ' + this.firstName;
+} 
+
+// console.log(john.getFormalFullName())
+
+//DANGEROUS ASIDE - 'NEW' AND FUNCTIONS
+// var john = Person('John','Doe'); //make sure to have new
+
+//function constructors and object constructors need the name to be capitalized from the first letter.
+
+//CONCEPTUAL ASIDE - BUILT-IN FUNCTION CONSTRUCTORS - when you create function constructors its actually creating objects
+var a = new Number("3");
+// console.log(a.indexOf('o')) // 1
+// console.log(a.indexOf('awd')) // -1
+
+var a = new Date("1/9/1992");
+// console.log(a);
+
+//all STRING objects
+String.prototype.isLengthGreaterThan = function (limit) {
+    return this.length > limit;
+}
+
+// console.log("John".isLengthGreaterThan(3)) //true
+
+var a = new Number(3) //object that wraps number
+Number.prototype.isPositive = function () {
+    return this > 0
+}
+// console.log(a.isPositive()) // true
+
+//DANGEROUS ASIDE - BUILT-IN CONSTRUCTORS
+var a = 3;
+var b = new Number(3);
+// console.log(a == b); //true
+// console.log(a === b); //false // this is dangerous, do not use build in function constructors
+var c = Number("3");
+// console.log(c) // 3
+
+//DANGEROUS ASIDE- ARRAYS AND FOR IN // never use for in for arrays beacuse you can loop through the arrays prototype.
+Array.prototype.myCustomFeature = 'cool!'
+var arr = ['John','Jane','Jim'];
+
+for (var prop in arr) {
+    // console.log(prop + ': ' + arr[prop])
+}
+
+
+//Object.create and Pure Prototypal Inheritance
+var person = {
+    firstName: 'Default',
+    lastName: 'Default',
+    greet: function () {
+        return 'Hi ' + this.firstName;
+    }
+}
+//BIG WORD ALERT - POLYFILL - code that adds a feature which the engine(browser) MAY lack.
+
+//polyfill
+if (!Object.create) {
+    Object.create = function (o) {
+        if (areguments.length > 1) {
+            throw new error('Object.create implementation' + ' only accepts the first parameter.');
+        }
+        function F() {
+            F.prototype = o;
+            return new F();
+        };
+    }
+}
+
+var john = Object.create(person); //john.greet() = 'Hi Default' because of prototype
+john.firstName = 'John';
+john.lastName = 'Doe';
+// console.log(john);
+
+
+//ES6 and CLASSES (ecmascript 2015)
+
+class Person1 {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    greet() {
+        return 'Hi ' + firstName;
+    }
+}
+
+var john = new Person1('John', 'Doe')
+// console.log(john);
+
+// class InformalPerson extends Person {
+//     constructor(firstName, lastName) {
+//         super(firstName, lastName);
+//     }
+
+//     greet () {}
+//     return 'Yo ' + firstName; 
+// }
+
+//BIG WORD ALERT - SYNTACTIC SUGAR : A DIFFERENT WAY TO TYPE SOMETHING THAT DOESN'T CHANGE HOW IT WORKS UNDER THE HOOD
+
+//----------------------------------------------------------
+//ODDS AND ENDS
+var people = [
+    {
+        firstName: 'John',
+        lastName: 'Doe',
+        addresses : [
+            '111 Main St.',
+            '222 Third St.'
+        ]
+    },
+    {
+        //the 'jane object
+        firstName: 'Jane',
+        lastName: 'Doe',
+        addresses: [
+            '333 Main St.',
+            '444 Fifth St.'
+        ],
+        greet: function () {
+            return 'Hello!';
+        }
+    }
+]
+
+// console.log(people);
+
+//TYPEOF, INSTANCEOF, AND FIGURING OTU WHAT SOMETHING IS
+var a = 3;
+console.log(typeof a); //number
+
+var b = 'hello';
+console.log(typeof b); //string
+
+var c = {};
+console.log(typeof c); //object
+
+var d = [];
+console.log(typeof d) //weird - it prints object
+console.log(Object.prototype.toString.call(d)); // better!
+
+function Person(name) {
+    this.name = name;
+}
+
+var e = new Person('Jane');
+console.log(typeof e);
+console.log(e instanceof Person);
+
+console.log(typeof undefined); // instace of tells you what instance is of its prototype chain
+console.log(typeof null); // a bug since, like, forever..
+
+var z = function () {};
+console.log(typeof z)
+
+
+//STRICT MODE
