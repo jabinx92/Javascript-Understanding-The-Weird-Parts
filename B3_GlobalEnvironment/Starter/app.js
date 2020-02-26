@@ -804,17 +804,17 @@ var logName = function(lang1, lang2) {
 
 var logPersonName = logName.bind(person); //makes a new copy of logName function. bind refers to the object declared as person, that way 'this' can reference that object
 
-logPersonName('en'); 
+// logPersonName('en'); 
 
-logName.call(person, 'en', 'es') // call executes with first argument referring to desired object
-logName.apply(person, ['en', 'es']); // apply is similar to call, but it needs an array of parameters
+// logName.call(person, 'en', 'es') // call executes with first argument referring to desired object
+// logName.apply(person, ['en', 'es']); // apply is similar to call, but it needs an array of parameters
 
 
-(function(lang1, lang2) {
-    console.log(`Logged ${this.getFullName()}`);
-    console.log(`Arguments: ${lang1} ${lang2}`)
-    console.log(`------------`)
-}).apply(person, ['en' , 'es']) // This is an IIFE with apply function
+// (function(lang1, lang2) {
+//     console.log(`Logged ${this.getFullName()}`);
+//     console.log(`Arguments: ${lang1} ${lang2}`)
+//     console.log(`------------`)
+// }).apply(person, ['en' , 'es']) // This is an IIFE with apply function
 
 // function borrowing
 var person2 = {
@@ -830,9 +830,62 @@ function multiply(a, b) {
 }
 
 var multipleByTwo = multiply.bind(this, 2);
-console.log(multipleByTwo(4));
+// console.log(multipleByTwo(4));
 
 var multiplyByThree = multiply.bind(this, 3);
-console.log(multiplyByThree(4));
+// console.log(multiplyByThree(4));
 
 //big word alert - function currying - creating a copy of a function but with some preset parameters. very useful in mathematical situations
+
+//FUNCTIONAL PROGRAMMING
+function mapForEach(arr, fn) {
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+        newArr.push(
+            fn(arr[i])
+        )
+    };
+    return newArr;
+}
+
+var arr1 = [1,2,3];
+console.log(arr1);
+
+var arr2 = mapForEach(arr1, function(item) {
+    return item * 2;
+});
+console.log(arr2);
+
+var arr3 = mapForEach(arr1, function(item) {
+    return item > 2;
+});
+console.log(arr3);
+
+var checkPastLimit = function(limiter, item) {
+    return item > limiter;
+}
+var arr4 = mapForEach(arr1, checkPastLimit.bind(this, 1));
+console.log(arr4);
+
+var checkPastLimitSimplified = function(limiter) {
+    return function(limiter, item) {
+        return item > limiter;
+    }.bind(this, limiter);
+}
+
+var arr5 = mapForEach(arr1, checkPastLimitSimplified(2));
+console.log(arr5);
+
+//Functional programming  part 2
+//Javascript Library - underscore.js (_.forEach, _.filter, _.map, etc). We did a lot of this in Hack Reactor
+
+var arr6 = _.map(arr1, function(item) {
+    return item * 3
+});
+console.log(arr6);
+
+var arr7 = _.filter([2,3,4,5,6,7,8,9,10], function (item) {
+    return item % 2 === 0;
+});
+
+console.log(arr7);
