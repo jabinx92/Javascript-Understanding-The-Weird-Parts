@@ -1,2 +1,2 @@
-var q = $("ul.people li");
-console.log(q);
+var g = G$('Jason', 'Giambi');
+g.greet().setLang('en').greet(true).log();
