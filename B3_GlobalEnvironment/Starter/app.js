@@ -1126,31 +1126,64 @@ var people = [
 
 //TYPEOF, INSTANCEOF, AND FIGURING OTU WHAT SOMETHING IS
 var a = 3;
-console.log(typeof a); //number
+// console.log(typeof a); //number
 
 var b = 'hello';
-console.log(typeof b); //string
+// console.log(typeof b); //string
 
 var c = {};
-console.log(typeof c); //object
+// console.log(typeof c); //object
 
 var d = [];
-console.log(typeof d) //weird - it prints object
-console.log(Object.prototype.toString.call(d)); // better!
+// console.log(typeof d) //weird - it prints object
+// console.log(Object.prototype.toString.call(d)); // better!
 
 function Person(name) {
     this.name = name;
 }
 
 var e = new Person('Jane');
-console.log(typeof e);
-console.log(e instanceof Person);
+// console.log(typeof e);
+// console.log(e instanceof Person);
 
-console.log(typeof undefined); // instace of tells you what instance is of its prototype chain
-console.log(typeof null); // a bug since, like, forever..
+// console.log(typeof undefined); // instace of tells you what instance is of its prototype chain
+// console.log(typeof null); // a bug since, like, forever..
 
 var z = function () {};
-console.log(typeof z)
+// console.log(typeof z)
 
 
 //STRICT MODE
+function logNewPerson() {
+    "use strict";
+
+    var person2;
+    person2 = {};
+    console.log(person2)
+}
+"use strict";
+var person;
+person = {};
+console.log(person);
+logNewPerson();
+
+//BONUS - TYPESCRIPT, ES6, AND TRANSPILED LANGUAGES
+//TRANSPILE: CONVERT THE SYNTAX OF ONE PROGRAMMING LANGUAGE, TO ANOTHER - in this case languages that don't really ever run anywhere, but instead are processed by 'transpilers' that generate javascript
+
+//typescript is by microsoft
+//traceur - if you have a big project that will take a couple years long, you might want to use traceur
+
+/*
+Transpiled Languages References
+EXTRAS
+
+For more on Typescript head to: http://www.typescriptlang.org
+
+and try out writing Typescript code in your browser here: http://www.typescriptlang.org/Playground
+
+For more on Traceur head to: https://github.com/google/traceur-compiler
+
+and try out writing ES6 code in Traceur in your browser here: https://google.github.io/traceur-compiler/demo/repl.html#
+
+Thank you!
+*/
