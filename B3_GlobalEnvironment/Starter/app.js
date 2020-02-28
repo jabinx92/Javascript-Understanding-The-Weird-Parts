@@ -4,9 +4,9 @@
 
 // b();
 
-// console.log(a);
-// var a = 'Hello World';
-// console.log(a);
+console.log(a);
+var a = 'Hello World';
+console.log(a);
 
 
 // a = undefined; //never DO THIS
